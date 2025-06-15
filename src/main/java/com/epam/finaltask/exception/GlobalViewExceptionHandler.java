@@ -99,7 +99,7 @@ public class GlobalViewExceptionHandler {
     }
 
     private ModelAndView getModelAndView(String exceptionMessage) {
-        ModelAndView modelAndView = new ModelAndView("/error");
+        ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("exception", exceptionMessage);
 
         return modelAndView;

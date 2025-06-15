@@ -33,7 +33,7 @@ public class VoucherController {
 
     @GetMapping("/search/{searchType}")
     public ModelAndView searchView(@PathVariable("searchType") String searchType) {
-        ModelAndView modelAndView = new ModelAndView("/tour/search");
+        ModelAndView modelAndView = new ModelAndView("tour/search");
 
         modelAndView.addObject("type", searchType.toLowerCase());
 
@@ -43,7 +43,7 @@ public class VoucherController {
 	@GetMapping(path = "/")
     public ModelAndView getVouchers(@RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
                                     @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend");
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -65,7 +65,7 @@ public class VoucherController {
     public ModelAndView getVouchersByUser(@RequestParam("id") UUID userId,
                                           @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
                                           @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend by user id: {}", userId);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -81,7 +81,7 @@ public class VoucherController {
     public ModelAndView getVouchersByTourType(@RequestParam("tour") String tourType,
                                                   @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
                                                   @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend by tour type: {}", tourType);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -97,7 +97,7 @@ public class VoucherController {
     public ModelAndView getVouchersByTransferType(@RequestParam("transfer") String transferType,
                                                       @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
                                                       @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend by transfer type: {}", transferType);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -113,7 +113,7 @@ public class VoucherController {
     public ModelAndView getVouchersByPrice(@RequestParam("price") Double price,
                                                @RequestParam(name = "pageSize", defaultValue = "1", required = false) Integer pageSize,
                                                @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend by price: {}", price);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -129,7 +129,7 @@ public class VoucherController {
     public ModelAndView getVouchersByHotelType(@RequestParam("hotel") String hotelType,
                                                    @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
                                                    @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-        ModelAndView modelAndView = new ModelAndView("/tour/dashboard");
+        ModelAndView modelAndView = new ModelAndView("tour/dashboard");
         log.info("Request to get all vouchers from frontend by hotel type: {}", hotelType);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         //obtain tours
@@ -144,7 +144,7 @@ public class VoucherController {
 
     @GetMapping("/create")
     public ModelAndView createVoucherView() {
-        ModelAndView modelAndView = new ModelAndView("/tour/create-update");
+        ModelAndView modelAndView = new ModelAndView("tour/create-update");
 
         modelAndView.addObject("operation", "create");
         modelAndView.addObject("voucher", new VoucherDTO());
@@ -154,7 +154,7 @@ public class VoucherController {
     }
     @PostMapping("/create")
     public ModelAndView createVoucher(@ModelAttribute("voucher") @Valid CreateVoucherRequest voucher) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("Request to create new tour from frontend");
         VoucherDTO createdVoucher = voucherRestController.createVoucher(voucher);
 
@@ -166,7 +166,7 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}/update")
     public ModelAndView updateVoucherView(@PathVariable("voucherId") UUID id) {
-        ModelAndView modelAndView = new ModelAndView("/tour/create-update");
+        ModelAndView modelAndView = new ModelAndView("tour/create-update");
 
         modelAndView.addObject("operation", "update");
         modelAndView.addObject("id", id);
@@ -178,7 +178,7 @@ public class VoucherController {
     @PostMapping("/{voucherId}/update")
     public ModelAndView updateVoucher(@PathVariable("voucherId") UUID id,
                                         @ModelAttribute("voucher") @Valid UpdateVoucherRequest voucher) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("Request to update tour from frontend with id: {}", id);
         VoucherDTO createdVoucher = voucherRestController.updateVoucher(id, voucher);
 
@@ -190,7 +190,7 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}/delete")
     public ModelAndView deleteVoucher(@PathVariable("voucherId") UUID id) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("Request to delete tour from frontend with id: {}", id);
 
         String text = voucherRestController.deleteVoucher(id).getBody();
@@ -202,7 +202,7 @@ public class VoucherController {
     @GetMapping("/{voucherId}/order/{userId}")
     public ModelAndView orderVoucher(@PathVariable("voucherId") UUID voucherId,
                                      @PathVariable("userId") UUID userId) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("User with id: {}. Trying to order tour with id: {}, request from frontend",
                 userId, voucherId);
 
@@ -214,7 +214,7 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}/status")
     public ModelAndView updateStatusView(@PathVariable("voucherId") UUID voucherId) {
-        ModelAndView modelAndView = new ModelAndView("/tour/change-status");
+        ModelAndView modelAndView = new ModelAndView("tour/change-status");
 
         modelAndView.addObject("type", "status");
         modelAndView.addObject("voucherId", voucherId);
@@ -225,7 +225,7 @@ public class VoucherController {
     @PostMapping("/{voucherId}/status")
     public ModelAndView updateStatus(@PathVariable("voucherId") UUID voucherId,
                                      @ModelAttribute("status") @Valid ChangeStatusVoucherRequest status) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("Trying to change tour status with id: {}, request from frontend", voucherId);
 
         String text = voucherRestController.changeVoucherStatus(voucherId, status.getStatus()).getBody();
@@ -236,7 +236,7 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}/status/hot")
     public ModelAndView updateHotStatusView(@PathVariable("voucherId") UUID voucherId) {
-        ModelAndView modelAndView = new ModelAndView("/tour/change-status");
+        ModelAndView modelAndView = new ModelAndView("tour/change-status");
 
         modelAndView.addObject("type", "hot");
         modelAndView.addObject("voucherId", voucherId);
@@ -246,7 +246,7 @@ public class VoucherController {
     @PostMapping("/{voucherId}/status/hot")
     public ModelAndView updateHotStatus(@PathVariable("voucherId") UUID voucherId,
                                         @ModelAttribute("status") @Valid ChangeHotStatusVoucherRequest status) {
-        ModelAndView modelAndView = new ModelAndView("/tour/success");
+        ModelAndView modelAndView = new ModelAndView("tour/success");
         log.info("Trying to change tour hot status with id: {}, request from frontend", voucherId);
 
         String text = voucherRestController.changeVoucherHotStatus(voucherId, status.getIsHot()).getBody();

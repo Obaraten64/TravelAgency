@@ -113,7 +113,7 @@ public class UserControllerTest {
         mockMvc.perform(result)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("user", expect))
-                .andExpect(view().name("/user/account"));
+                .andExpect(view().name("user/account"));
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);
         verify(userDetailsService, times(1)).loadUserByUsername(username);
@@ -140,7 +140,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("user", new UserUpdateRequest()))
                 .andExpect(model().attribute("roles", Role.values()))
-                .andExpect(view().name("/user/update"));
+                .andExpect(view().name("user/update"));
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);
         verify(userDetailsService, times(1)).loadUserByUsername(username);
@@ -156,7 +156,7 @@ public class UserControllerTest {
         mockMvc.perform(result)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("changeStatus", new UserChangeStatusRequest()))
-                .andExpect(view().name("/user/change-status"));
+                .andExpect(view().name("user/change-status"));
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);
         verify(userDetailsService, times(1)).loadUserByUsername(username);
@@ -184,7 +184,7 @@ public class UserControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isFound()) //redirection
                 .andExpect(model().attribute("user", userExpected))
-                .andExpect(view().name("redirect:/users/account"));
+                .andExpect(view().name("redirect:users/account"));
 
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);
@@ -231,7 +231,7 @@ public class UserControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isBadRequest())
                 .andExpect(model().attribute("exception", "You are not allowed to update this user!"))
-                .andExpect(view().name("/error"));
+                .andExpect(view().name("error"));
 
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);
@@ -265,7 +265,7 @@ public class UserControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("user", userExpected))
-                .andExpect(view().name("/user/account"));
+                .andExpect(view().name("user/account"));
 
         //verify filter calls
         verify(jwtService, times(1)).extractUsername(jwtToken);

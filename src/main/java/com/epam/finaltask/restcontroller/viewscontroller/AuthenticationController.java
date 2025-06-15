@@ -37,7 +37,7 @@ public class AuthenticationController {
 
     @GetMapping(path = "/sign-in")
     public ModelAndView signIn(@RequestParam(value = "error", required = false) String error) {
-        ModelAndView modelAndView = new ModelAndView("/auth/sign-in");
+        ModelAndView modelAndView = new ModelAndView("auth/sign-in");
 
         if (error != null) {
             modelAndView.addObject("error", error);
@@ -47,7 +47,7 @@ public class AuthenticationController {
     }
     @GetMapping(path = "/sign-up")
     public ModelAndView signUp() {
-        ModelAndView modelAndView = new ModelAndView("/auth/sign-up");
+        ModelAndView modelAndView = new ModelAndView("auth/sign-up");
         UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
 
         modelAndView.addObject("user", userRegistrationRequest);
@@ -66,7 +66,7 @@ public class AuthenticationController {
 
         //model.addAttribute("user", userDTO);
         log.info("User registered using frontend: {}", userDTO.getUsername());
-        return new ModelAndView("/auth/sign-in");
+        return new ModelAndView("auth/sign-in");
     }
     @PostMapping("/login")
     public ModelAndView login(@ModelAttribute("user") @Valid UserLoginRequest userLoginRequest,
@@ -80,14 +80,14 @@ public class AuthenticationController {
         authenticationService.updateCookie(response, new Cookie(jwtRefreshCookie, tokensResponse.getRefreshToken()), Integer.MAX_VALUE);
         //redirect to main
         log.info("Login using frontend successful, from user: {} ", userLoginRequest.getUsername());
-        return new ModelAndView("/index");
+        return new ModelAndView("index");
     }
     @PostMapping("/logout")
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         log.info("Logout request using frontend");
         //get tokens from cookies
         if (request.getCookies() == null) {
-            ModelAndView modelAndView = new ModelAndView("/error");
+            ModelAndView modelAndView = new ModelAndView("error");
             modelAndView.addObject("exception", "You are not logged in");
 
             return modelAndView;
@@ -110,6 +110,6 @@ public class AuthenticationController {
         authenticationService.updateCookie(response, new Cookie(jwtRefreshCookie, null), 0);
         //redirect to main
         log.info("Logout using frontend successful");
-        return new ModelAndView("/index");
+        return new ModelAndView("index");
     }
 }

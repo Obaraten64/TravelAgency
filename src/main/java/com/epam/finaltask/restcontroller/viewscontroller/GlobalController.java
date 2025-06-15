@@ -8,6 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalController {
     @GetMapping("/")
     public ModelAndView home() {
-        return new ModelAndView("/index");
+        return new ModelAndView("index");
     }
 }

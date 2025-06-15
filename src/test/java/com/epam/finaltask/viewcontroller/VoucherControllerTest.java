@@ -35,7 +35,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.Collections;;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -92,7 +92,7 @@ public class VoucherControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("type", searchType.toLowerCase()))
-                .andExpect(view().name("/tour/search"));
+                .andExpect(view().name("tour/search"));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class VoucherControllerTest {
                 .andExpect(model().attribute("linkForward",
                         linkStarter + "&pageNumber=" + (pageNumber + 1)))
                 .andExpect(model().attribute("vouchers", vouchers))
-                .andExpect(view().name("/tour/dashboard"));
+                .andExpect(view().name("tour/dashboard"));
 
         verify(voucherRestController, times(1)).getVouchers(pageable);
     }
@@ -143,7 +143,7 @@ public class VoucherControllerTest {
                 .andExpect(model().attribute("linkForward",
                         linkStarter + "&pageNumber=" + (pageNumber + 1)))
                 .andExpect(model().attribute("vouchers", vouchers))
-                .andExpect(view().name("/tour/dashboard"));
+                .andExpect(view().name("tour/dashboard"));
 
         verify(voucherRestController, times(1)).getVouchersByUser(uuid, pageable);
     }
@@ -160,7 +160,7 @@ public class VoucherControllerTest {
                 .andExpect(model().attribute("transfers", TransferType.values()))
                 .andExpect(model().attribute("hotels", HotelType.values()))
                 .andExpect(model().attribute("statuses", VoucherStatus.values()))
-                .andExpect(view().name("/tour/create-update"));
+                .andExpect(view().name("tour/create-update"));
     }
 
     @Test
@@ -210,7 +210,7 @@ public class VoucherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", "Created voucher successfully. Id: "
                         + expect.getId()))
-                .andExpect(view().name("/tour/success"));
+                .andExpect(view().name("tour/success"));
 
         verify(voucherRestController, times(1)).createVoucher(createVoucher);
     }
@@ -230,7 +230,7 @@ public class VoucherControllerTest {
                 .andExpect(model().attribute("transfers", TransferType.values()))
                 .andExpect(model().attribute("hotels", HotelType.values()))
                 .andExpect(model().attribute("statuses", VoucherStatus.values()))
-                .andExpect(view().name("/tour/create-update"));
+                .andExpect(view().name("tour/create-update"));
     }
 
     @Test
@@ -264,7 +264,7 @@ public class VoucherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", "Updated voucher successfully. Id: "
                         + expect.getId()))
-                .andExpect(view().name("/tour/success"));
+                .andExpect(view().name("tour/success"));
 
         verify(voucherRestController, times(1)).updateVoucher(voucherId, createVoucher);
     }
@@ -282,7 +282,7 @@ public class VoucherControllerTest {
         var request = get("/vouchers/{voucherId}/delete", voucherId.toString());
         mockMvc.perform(request)
                 .andExpect(model().attribute("message", answer))
-                .andExpect(view().name("/tour/success"));
+                .andExpect(view().name("tour/success"));
 
         verify(voucherRestController, times(1)).deleteVoucher(voucherId);
     }

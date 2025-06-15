@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping(path = "/account")
     public ModelAndView account(@AuthenticationPrincipal UserDetails user) {
-        ModelAndView modelAndView = new ModelAndView("/user/account");
+        ModelAndView modelAndView = new ModelAndView("user/account");
         log.info("User {} trying to access his account", user.getUsername());
 
         UserDTO userDTO = userService.getUserByUsername(user.getUsername());
@@ -40,7 +40,7 @@ public class UserController {
     }
 	@GetMapping(path ="/update")
     public ModelAndView updatePage() {
-        ModelAndView modelAndView = new ModelAndView("/user/update");
+        ModelAndView modelAndView = new ModelAndView("user/update");
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
 
         modelAndView.addObject("user", userUpdateRequest);
@@ -50,7 +50,7 @@ public class UserController {
     }
     @GetMapping(path = "/change/status")
     public ModelAndView changeStatusPage() {
-        ModelAndView modelAndView = new ModelAndView("/user/change-status");
+        ModelAndView modelAndView = new ModelAndView("user/change-status");
         UserChangeStatusRequest userChangeStatusRequest = new UserChangeStatusRequest();
 
         modelAndView.addObject("changeStatus", userChangeStatusRequest);
@@ -63,7 +63,7 @@ public class UserController {
                                        @Valid UserUpdateRequest userUpdateRequest,
                                    @AuthenticationPrincipal UserDetails user) {
         System.out.println(userUpdateRequest);
-        ModelAndView modelAndView = new ModelAndView("redirect:/users/account");
+        ModelAndView modelAndView = new ModelAndView("redirect:users/account");
         log.info("User, {}, data update using frontend request from: {} ",
                 userUpdateRequest.getUsername(), user.getUsername());
 
@@ -77,7 +77,7 @@ public class UserController {
     public ModelAndView changeStatus(@ModelAttribute("changeStatus")
                                          @Valid UserChangeStatusRequest userChangeStatusRequest,
                                      @AuthenticationPrincipal UserDetails user) {
-        ModelAndView modelAndView = new ModelAndView("/user/account");
+        ModelAndView modelAndView = new ModelAndView("user/account");
         log.info("Account status change request using frontend from: {} ", user.getUsername());
 
         UserDTO userDTO = userRestController.changeStatus(userChangeStatusRequest, user);

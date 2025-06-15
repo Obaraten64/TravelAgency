@@ -77,7 +77,7 @@ public class AuthenticationControllerTest {
         var request = get("/auth/sign-in");
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(view().name("/auth/sign-in"));
+                .andExpect(view().name("auth/sign-in"));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class AuthenticationControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("error", error))
-                .andExpect(view().name("/auth/sign-in"));
+                .andExpect(view().name("auth/sign-in"));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("user", new UserRegistrationRequest()))
                 .andExpect(model().attribute("roles", Role.values()))
-                .andExpect(view().name("/auth/sign-up"));
+                .andExpect(view().name("auth/sign-up"));
     }
 
     @Test
@@ -127,7 +127,7 @@ public class AuthenticationControllerTest {
                 .flashAttr("user", requestBody);
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(view().name("/auth/sign-in"));
+                .andExpect(view().name("auth/sign-in"));
 
         verify(authenticationRestController, times(1)).registerUser(requestBody);
     }
@@ -150,7 +150,7 @@ public class AuthenticationControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isBadRequest())
                 .andExpect(model().attribute("exception", expect))
-                .andExpect(view().name("/error"));
+                .andExpect(view().name("error"));
     }
 
     @Test
@@ -173,7 +173,7 @@ public class AuthenticationControllerTest {
                 .flashAttr("user", requestBody);
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(view().name("/index"));
+                .andExpect(view().name("index"));
 
         verify(authenticationRestController, times(1)).login(requestBody);
 
@@ -195,7 +195,7 @@ public class AuthenticationControllerTest {
                         new Cookie(jwtRefreshCookie, requestBody.getRefreshToken()));
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(view().name("/index"));
+                .andExpect(view().name("index"));
 
         verify(authenticationRestController, times(1)).logout(requestBody);
         verify(authenticationService, times(2))
@@ -209,6 +209,6 @@ public class AuthenticationControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("exception", "You are not logged in"))
-                .andExpect(view().name("/error"));
+                .andExpect(view().name("error"));
     }
 }
