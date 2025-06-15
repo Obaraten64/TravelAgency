@@ -1,0 +1,43 @@
+services:
+  travelagency:
+    container_name: travelagency
+    image: obaraten64/travelagency
+    #build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      travelagency-db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://travelagency-db:3306/travelagency"
+      SPRING_DATASOURCE_DRIVERCLASSNAME: "com.mysql.cj.jdbc.Driver"
+      SPRING_JPA_HIBERNATE_DDL-AUTO: "update"
+      spring.jpa.defer-datasource-initialization: true
+      #the values below are for development purposes ONLY
+      #the actual value should be defined in Docker or similar
+      SPRING_DATASOURCE_USERNAME: "root"
+      application.security.jwt.secret-key: 404E635263336A586E3272357538782F413F4428472B4B6250645367566B5970
+      application.security.jwt.expiration: 864
+      application.security.jwt.refresh-token.expiration: 1728
+
+  travelagency-db:
+    container_name: travelagency-db
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: travelagency
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 3
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 9001:80
+    depends_on:
+      travelagency-db:
+        condition: service_healthy
+    environment:
+      PMA_HOST : travelagency-db
