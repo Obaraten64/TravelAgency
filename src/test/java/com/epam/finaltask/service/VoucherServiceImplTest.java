@@ -184,9 +184,15 @@ public class VoucherServiceImplTest {
     @DisplayName("Delete voucher")
     public void testDeleteVoucher() {
         UUID id = UUID.randomUUID();
+        User owner = User.builder()
+                .id(UUID.randomUUID())
+                .vouchers(new ArrayList<>())
+                .build();
         Voucher voucher = Voucher.builder()
                 .id(id)
+                .user(owner)
                 .build();
+        owner.getVouchers().add(voucher);
 
         when(voucherRepository.findById(id)).thenReturn(Optional.of(voucher));
 

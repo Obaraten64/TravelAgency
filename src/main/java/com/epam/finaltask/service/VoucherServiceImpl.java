@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 
 import lombok.AllArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.epam.finaltask.mapper.EnumConvertor.getCorrectEnumType;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 @Transactional
@@ -102,6 +104,14 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public void delete(String voucherId) {
         Voucher voucher = findVoucherById(UUID.fromString(voucherId));
+        User owner = voucher.getUser();
+
+        if (owner != null) {
+            log.info("Removing owner from Voucher: {}", voucherId);
+            owner.getVouchers().remove(voucher);
+            voucher.setUser(null);
+        }
+
         voucherRepository.delete(voucher);
     }
 
