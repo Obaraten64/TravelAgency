@@ -21,7 +21,7 @@ public class UserRegistrationRequest {
     private String username;
     @Schema(example = "Some9assword!")
     @NotNull(message = "Password can't be empty")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[{}\\]:;',?/*~$^+=<>]).{8,20}$",
             message = "Password must contain at least one digit, one lowercase letter, one uppercase letter," +
                     " one special character(!@#&()–[{}]:;',?/*~$^+=<>), and be between 8 and 20 characters")
     private String password;
