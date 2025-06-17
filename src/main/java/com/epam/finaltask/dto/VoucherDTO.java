@@ -44,5 +44,19 @@ public class VoucherDTO {
     private UUID userId;
 
     private Boolean isHot;
-    
+
+    public VoucherDTO(VoucherDTO voucherDTO) {
+        this.id = voucherDTO.getId();
+        this.title = voucherDTO.getTitle();
+        this.description = voucherDTO.getDescription();
+        this.price = voucherDTO.getPrice();
+        this.tourType = voucherDTO.getTourType();
+        this.transferType = voucherDTO.getTransferType();
+        this.hotelType = voucherDTO.getHotelType();
+        this.status = voucherDTO.getStatus();
+        this.arrivalDate = voucherDTO.getArrivalDate();
+        this.evictionDate = voucherDTO.getEvictionDate();
+        this.userId = voucherDTO.getUserId();
+        this.isHot = voucherDTO.getIsHot();
+    }
 }

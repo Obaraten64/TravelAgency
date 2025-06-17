@@ -27,7 +27,7 @@ public class UserDTO {
 	@NotNull
 	private String username;
 	@NotNull
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[{}\\]:;',?/*~$^+=<>]).{8,20}$",
 			message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and be between 8 and 20 characters")
 	private String password;
 
@@ -41,4 +41,15 @@ public class UserDTO {
 	private Double balance;
 
 	private boolean active;
+
+	public UserDTO(UserDTO userDTO) {
+		this.id = userDTO.getId();
+		this.username = userDTO.getUsername();
+		this.password = userDTO.getPassword();
+		this.role = userDTO.getRole();
+		this.vouchers = userDTO.getVouchers();
+		this.phoneNumber = userDTO.getPhoneNumber();
+		this.balance = userDTO.getBalance();
+		this.active = userDTO.isActive();
+	}
 }
