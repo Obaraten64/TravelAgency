@@ -83,6 +83,7 @@ public class UserControllerTest {
         when(jwtService.extractUsername(jwtToken)).thenReturn(username);
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtService.validateToken(jwtToken, userDetails)).thenReturn(true);
+        when(refreshTokenService.isPresent(username)).thenReturn(true);
         //authenticate user
         doAnswer(invocation -> {
             UserDetails userAdapter = invocation.getArgument(0);
@@ -221,6 +222,7 @@ public class UserControllerTest {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return null;
         }).when(authenticationService).authenticate(userDetailsNotAdmin);
+        when(refreshTokenService.isPresent(notAdmin)).thenReturn(true);
 
         when(userRestController.updateUser(requestBody, userDetailsNotAdmin))
                 .thenThrow(new BadCredentialsException("You are not allowed to update this user!"));
@@ -238,6 +240,7 @@ public class UserControllerTest {
         verify(userDetailsService, times(1)).loadUserByUsername(notAdmin);
         verify(jwtService, times(1)).validateToken(jwtToken, userDetailsNotAdmin);
         verify(authenticationService, times(1)).authenticate(userDetailsNotAdmin);
+        verify(refreshTokenService, times(1)).isPresent(notAdmin);
 
         verify(userRestController, times(1)).updateUser(requestBody, userDetailsNotAdmin);
     }

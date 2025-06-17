@@ -64,11 +64,11 @@ public class JWTFilter extends OncePerRequestFilter {
             //get username from non expired token
             username = jwtService.extractUsername(token);
             //check whether user authenticated or not
-            /*if (!refreshTokenService.isPresent(username)) {
+            if (!refreshTokenService.isPresent(username)) {
                 log.info("User tried to access application using random JWT token");
                 filterChain.doFilter(request, response);
                 return;
-            }*/
+            }
         } catch (ExpiredJwtException exception) {
             //refresh token
             log.info("Authorization token expired: {}. Refreshing", token);

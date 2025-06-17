@@ -271,6 +271,7 @@ public class AuthenticationRestControllerTest {
         when(jwtService.extractUsername(jwtToken)).thenReturn(username);
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtService.validateToken(jwtToken, userDetails)).thenReturn(true);
+        when(refreshTokenService.isPresent(username)).thenReturn(true);
 
         var request = post("/api/auth/logout")
                 .header("Authorization", "Bearer " + jwtToken)
@@ -285,6 +286,7 @@ public class AuthenticationRestControllerTest {
         verify(userDetailsService, times(1)).loadUserByUsername(username);
         verify(jwtService, times(1)).validateToken(jwtToken, userDetails);
         verify(authenticationService, times(1)).authenticate(userDetails);
+        verify(refreshTokenService, times(1)).isPresent(username);
         //verify controller calls
         verify(authenticationService, times(1)).deleteRefreshToken(any(Tokens.class));
         verify(authenticationService, times(1)).authenticateAnonymous();
@@ -308,6 +310,7 @@ public class AuthenticationRestControllerTest {
         when(jwtService.extractUsername(jwtToken)).thenReturn(username);
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtService.validateToken(jwtToken, userDetails)).thenReturn(true);
+        when(refreshTokenService.isPresent(username)).thenReturn(true);
 
         var request = post("/api/auth/logout")
                 .cookie(new Cookie(jwtCookie, jwtToken))
@@ -322,6 +325,7 @@ public class AuthenticationRestControllerTest {
         verify(userDetailsService, times(1)).loadUserByUsername(username);
         verify(jwtService, times(1)).validateToken(jwtToken, userDetails);
         verify(authenticationService, times(1)).authenticate(userDetails);
+        verify(refreshTokenService, times(1)).isPresent(username);
         //verify controller calls
         verify(authenticationService, times(1)).deleteRefreshToken(any(Tokens.class));
         verify(authenticationService, times(1)).authenticateAnonymous();
